@@ -7,9 +7,14 @@ var config = require('./config.json');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.post('/:endpoint', function(req, res) {
-  var endpoint = config['endpoints'].find(function(endpoint) {
-    return req.params.endpoint === endpoint.path;
-  });
+  var endpoint;
+
+  for(var i in config['endpoints']) {
+    if(req.params.endpoint === config['endpoints'][i].path) {
+      endpoint = config['endpoints'][i];
+      break;
+    }
+  };
 
   if(endpoint) {
     io.emit(endpoint.event, req.body);

@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var config = require('./config.json');
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.post('/:endpoint', function(req, res) {
   var endpoint;
 

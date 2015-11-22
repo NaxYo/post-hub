@@ -5,6 +5,12 @@ var bodyParser = require('body-parser');
 
 var config = require('./config.json');
 
+function defaultContentTypeMiddleware(req, res, next) {
+  req.headers['content-type'] = req.headers['content-type'] || 'application/json';
+  next();
+}
+
+app.use(defaultContentTypeMiddleware);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.post('/:endpoint', function(req, res) {
@@ -18,6 +24,9 @@ app.post('/:endpoint', function(req, res) {
   };
 
   if(endpoint) {
+    for(var key of Object.keys(req.body))
+        console.log(key + ': ' + req.body[key]);
+
     io.emit(endpoint.event, req.body);
     console.log('Endpoint fired: ' + req.params.endpoint);
   }

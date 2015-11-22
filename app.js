@@ -6,7 +6,11 @@ var bodyParser = require('body-parser');
 var config = require('./config.json');
 
 function defaultContentTypeMiddleware(req, res, next) {
-  req.headers['content-type'] = req.headers['content-type'] || 'application/json';
+  if(config['forced_content_type'])
+    req.headers['content-type'] = config['forced_content_type'];
+  else if(config['default_content_type'])
+    req.headers['content-type'] = req.headers['content-type'] || config['default_content_type'];
+
   next();
 }
 
@@ -24,9 +28,6 @@ app.post('/:endpoint', function(req, res) {
   };
 
   if(endpoint) {
-    for(var key of Object.keys(req.body))
-        console.log(key + ': ' + req.body[key]);
-
     io.emit(endpoint.event, req.body);
     console.log('Endpoint fired: ' + req.params.endpoint);
   }

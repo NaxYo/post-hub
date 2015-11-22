@@ -1,7 +1,9 @@
 {
-    "port": 8080,
-    "endpoints": [
-        { "path": "predeploy", "event": "predeploy" },
-        { "path": "postdeploy", "event": "postdeploy" }
-    ]
+  "port": 8080,
+  "default_content_type": "application/json",
+  "forced_content_type": null,
+  "endpoints": [
+    { "path": "predeploy", "event": "predeploy" },
+    { "path": "postdeploy", "event": "postdeploy" }
+  ]
 }
